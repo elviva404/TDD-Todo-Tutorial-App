@@ -19,6 +19,8 @@ class ItemManagerTests: XCTestCase {
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        sut.removeAllItems()
+        sut = nil
     }
 
     func testToDoCount_Initially_ShouldBeZero() {
@@ -97,6 +99,30 @@ class ItemManagerTests: XCTestCase {
         )
         
         XCTAssertEqual(sut.toDoCount, 1)
+    }
+
+    func test_ToDoItemsGetSerialized() {
+        var itemManager: ItemManager? = ItemManager()
+
+        let firstItem = ToDoItem(title: "First")
+        itemManager!.addItem(item: firstItem)
+
+        let secondItem = ToDoItem(title: "Second")
+        itemManager!.addItem(item: secondItem)
+
+        NotificationCenter.default.post(
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
+
+        itemManager = nil
+
+        XCTAssertNil(itemManager)
+
+        itemManager = ItemManager()
+        XCTAssertEqual(itemManager?.toDoCount, 2)
+        XCTAssertEqual(itemManager?.itemAtIndex(index: 0), firstItem)
+        XCTAssertEqual(itemManager?.itemAtIndex(index: 1), secondItem)
     }
 
 }

@@ -5,8 +5,8 @@
 //  Created by Elikem Savie (Team Ampersand) on 06/01/2021.
 //
 
-import XCTest
 @testable import Todo_Testing_tut
+import XCTest
 import MapKit
 import CoreLocation
 
@@ -28,6 +28,7 @@ class DetailViewControllerTests: XCTestCase {
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        sut.itemInfo?.0.removeAllItems()
     }
 
     func test_HasTitleLabel() {

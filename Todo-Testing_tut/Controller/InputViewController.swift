@@ -66,13 +66,38 @@ class InputViewController: UIViewController {
                             name: locationName,
                             coordinate: placeMark?.location?.coordinate)
                     )
+
+                    DispatchQueue.main.async {
+                        self.itemManager?.addItem(item: item)
+                        self.dismiss(
+                            animated: true,
+                            completion: nil
+                        )
+                    }
+    
                     
                     self.itemManager?.addItem(item: item)
                 }
+            } else {
+                let item = ToDoItem(title: titleString,
+                    itemDescription: descriptionString,
+                    timestamp: date?.timeIntervalSince1970,
+                    location: Location(name: locationName))
+                
+                self.itemManager?.addItem(item: item)
+                dismiss(animated: true, completion: nil)
             }
-        }
+    } else {
+        let item = ToDoItem(title: titleString,
+            itemDescription: descriptionString,
+            timestamp: date?.timeIntervalSince1970,
+            location: nil)
         
-    }
+        self.itemManager?.addItem(item: item)
 
+        dismiss(animated: true, completion: nil)
+
+    }
+    }
 
 }
